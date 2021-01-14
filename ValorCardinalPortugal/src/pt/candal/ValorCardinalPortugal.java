@@ -450,7 +450,7 @@ public class ValorCardinalPortugal {
 
 		default:
 
-			if (valor == CARDINAL_UM) {
+			if (valor.equals(CARDINAL_UM)) {
 				if (CARDINAL_GRUPOS_MASCULINO[nivel])
 					resultado = CARDINAL_UM;
 				else
