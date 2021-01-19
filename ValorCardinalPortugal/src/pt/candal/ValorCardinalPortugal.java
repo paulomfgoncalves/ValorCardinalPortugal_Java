@@ -183,12 +183,10 @@ public class ValorCardinalPortugal {
 
 	private String[] DivideEmPartesInteiraBigDecimal(String valor) {
 
-		String temp = valor;
+		if (valor.indexOf(".") == -1)
+			valor += ".00";
 
-		if (temp.indexOf(".") == -1)
-			temp += ".00";
-
-		String[] partes = temp.split("\\.");
+		String[] partes = valor.split("\\.");
 
 		if (partes[0].length() == 0)
 			partes[0] = "0";
@@ -203,20 +201,20 @@ public class ValorCardinalPortugal {
 
 	private String[] DivideEmGruposDeMil(String valor) {
 
-		String temp = valor;
+		///String temp = valor;
 
 		// extrai
 		List<String> list = new ArrayList<String>();
-		while (temp.length() > 3) {
+		while (valor.length() > 3) {
 			// C# String str3 = temp.SubString(temp.length() - 3);
-			String str3 = temp.substring(temp.length() - 3);
+			String str3 = valor.substring(valor.length() - 3);
 			list.add(str3);
 			// C# temp = temp.SubString(0, temp.length() - 3);
-			temp = temp.substring(0, temp.length() - 3);
+			valor = valor.substring(0, valor.length() - 3);
 		}
-		list.add(String.format("%1$3s", temp).replace(' ', '0') // garante comprimento = 3
+		
+		list.add(String.format("%1$3s", valor).replace(' ', '0')); // garante comprimento = 3
 		// temp.PadLeft(3, '0')
-		);
 
 		// reverte array
 		int count = list.size();
@@ -458,7 +456,7 @@ public class ValorCardinalPortugal {
 
 				resultado += " " + CARDINAL_GRUPOS_SINGULAR[nivel];
 			} else
-				resultado += valor + " " + CARDINAL_GRUPOS_PLURAL[nivel];
+				resultado = valor + " " + CARDINAL_GRUPOS_PLURAL[nivel];
 			break;
 		}
 
