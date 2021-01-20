@@ -344,7 +344,7 @@ public class ValorCardinalPortugal {
 		if (valTemp == 1)
 			return FRASE_NOME_DECIMAIS_1;
 
-		if (!vazioSeZero && (valTemp == 0))
+		if ((valTemp == 0) && (!vazioSeZero))
 			return FRASE_NOME_DECIMAIS;
 
 		return "";
@@ -360,13 +360,14 @@ public class ValorCardinalPortugal {
 		if (valTemp == 1)
 			return FRASE_NOME_INTEIROS_1;
 
-		if (!vazioSeZero && (valTemp == 0))
+		if ((valTemp == 0) && (!vazioSeZero))
 			return FRASE_NOME_INTEIROS;
 
 		return "";
 	}
 
 	private String AdicionaSufixoDeGrupoMil(String valor, int nivel) {
+		
 		String resultado = "";
 
 		// TODO: usar CARDINAL_GROUPS[]
