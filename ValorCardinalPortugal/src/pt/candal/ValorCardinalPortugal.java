@@ -261,8 +261,11 @@ public class ValorCardinalPortugal {
 	}
 
 	private String RemoveUltimasVirgulasEmExcesso(String valor) {
-
-		String resultado = valor;
+		
+        if (valor.length() < 2)
+            return valor;
+		
+        String resultado = valor;
 
 		// C# while (resultado.SubString(resultado.length() - 2, 2) == FRASE_VIRGULA)
 		while (resultado.substring(resultado.length() - 2, resultado.length()).equals(FRASE_VIRGULA))
