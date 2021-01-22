@@ -234,7 +234,7 @@ public class ValorCardinalPortugal {
 			if (grouposEmCardinal[x].length() == 0)
 				continue;
 
-			// analisa se coloca o ultimo " e "
+			// no ultimo elemento analisa se coloca  " e " no fim
 			if ((x == (grouposEmCardinal.length - 1)) && (resultado.length() > 1)) {
 				int pos = grouposEmCardinal[x].indexOf(FRASE_E);
 				if (pos == -1) {
@@ -248,12 +248,14 @@ public class ValorCardinalPortugal {
 			resultado += FRASE_VIRGULA;
 		}
 
-		if (resultado.length() == 0) {
-			if (vazioSeZero)
-				return "";
-			else
-				return CARDINAL_ZERO;
-		}
+        if ((resultado.length() == 0) && (!vazioSeZero))
+            resultado = CARDINAL_ZERO;
+//		if (resultado.length() == 0) {
+//			if (vazioSeZero)
+//				return "";
+//			else
+//				return CARDINAL_ZERO;
+//		}
 
 		resultado = RemoveUltimasVirgulasEmExcesso(resultado);
 
