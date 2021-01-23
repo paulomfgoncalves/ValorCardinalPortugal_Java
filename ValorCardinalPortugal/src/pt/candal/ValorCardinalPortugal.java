@@ -121,7 +121,7 @@ public class ValorCardinalPortugal {
 
 	public String Converte(String valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimail) {
 
-		String[] partes = DivideEmPartesInteiraBigDecimal(valor);
+		String[] partes = DivideEmPartesInteiraDecimal(valor);
 
 		// separa por grupos de mil "???"
 		String[] gruposInteiros = DivideEmGruposDeMil(partes[0]);
@@ -168,9 +168,9 @@ public class ValorCardinalPortugal {
 			finalInteiros += " " + qualificadorInteiros;
 
 		// caso: adiciona qualificador decimais
-		if (finalDecimais.length() > 0)
-			if (finalInteiros.length() > 0)
-				finalDecimais += " ";
+		if ((finalDecimais.length() > 0) && (finalInteiros.length() > 0))
+			finalDecimais += " ";
+		
 		finalDecimais += qualificadoreDecimais;
 
 		// case: adiciona " e " entre a frase inteiros & frase decimais
@@ -181,7 +181,7 @@ public class ValorCardinalPortugal {
 		return finalInteiros + dual + finalDecimais;
 	}
 
-	private String[] DivideEmPartesInteiraBigDecimal(String valor) {
+	private String[] DivideEmPartesInteiraDecimal(String valor) {
 
 		if (valor.indexOf(".") == -1)
 			valor += ".00";
@@ -375,7 +375,6 @@ public class ValorCardinalPortugal {
 		
 		String resultado = "";
 
-		// TODO: usar CARDINAL_GROUPS[]
 		switch (nivel) {
 
 		case 0: // xxx -unidades, dezenas, centenas
