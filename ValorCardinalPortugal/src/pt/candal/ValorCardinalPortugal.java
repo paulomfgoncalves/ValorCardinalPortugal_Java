@@ -86,10 +86,10 @@ public class ValorCardinalPortugal {
 	private static final String FRASE_E = " e ";
 	private static final String FRASE_VIRGULA = ", ";
 	private static final String FRASE_DE = " de";
-	private static final String FRASE_NOME_INTEIROS = "euros";
-	private static final String FRASE_NOME_INTEIROS_1 = "euro";
-	private static final String FRASE_NOME_DECIMAIS = "centimos";
-	private static final String FRASE_NOME_DECIMAIS_1 = "centimo";
+	private static final String FRASE_NOME_INTEIROS_PLURAL = "euros";
+	private static final String FRASE_NOME_INTEIROS_SINGULAR = "euro";
+	private static final String FRASE_NOME_DECIMAIS_PLURAL = "centimos";
+	private static final String FRASE_NOME_DECIMAIS_SINGULAR = "centimo";
 
 	public String Converte(BigDecimal valor) {
 
@@ -143,7 +143,7 @@ public class ValorCardinalPortugal {
 
 		// caso: se valor = 0.0 mostra sempre "zero"
 		if ((finalInteiros.length() == 0) && (finalDecimais.length() == 0))
-			finalInteiros = CARDINAL_ZERO + " " + FRASE_NOME_INTEIROS;
+			finalInteiros = CARDINAL_ZERO + " " + FRASE_NOME_INTEIROS_PLURAL;
 
 		// caso: analiza se coloca "de" ou "e" antes do qualificador
 		if (finalInteiros.length() > 2) {
@@ -344,13 +344,13 @@ public class ValorCardinalPortugal {
 		byte valTemp = Byte.parseByte(valor);
 
 		if (valTemp > 1)
-			return FRASE_NOME_DECIMAIS;
+			return FRASE_NOME_DECIMAIS_PLURAL;
 
 		if (valTemp == 1)
-			return FRASE_NOME_DECIMAIS_1;
+			return FRASE_NOME_DECIMAIS_SINGULAR;
 
 		if ((valTemp == 0) && (!vazioSeZero))
-			return FRASE_NOME_DECIMAIS;
+			return FRASE_NOME_DECIMAIS_PLURAL;
 
 		return "";
 	}
@@ -360,13 +360,13 @@ public class ValorCardinalPortugal {
 		double valTemp = Double.parseDouble(valor);
 
 		if (valTemp > 1)
-			return FRASE_NOME_INTEIROS;
+			return FRASE_NOME_INTEIROS_PLURAL;
 
 		if (valTemp == 1)
-			return FRASE_NOME_INTEIROS_1;
+			return FRASE_NOME_INTEIROS_SINGULAR;
 
 		if ((valTemp == 0) && (!vazioSeZero))
-			return FRASE_NOME_INTEIROS;
+			return FRASE_NOME_INTEIROS_PLURAL;
 
 		return "";
 	}
