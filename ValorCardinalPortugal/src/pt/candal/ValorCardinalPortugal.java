@@ -8,7 +8,7 @@ import java.util.List;
 public class ValorCardinalPortugal {
 
 	// campos em ordinal
-	
+
 	// xxx
 	private static final String[] CARDINAL_UNIDADES = { "", "um", "dois", "três", "quatro", "cinco", "seis", "sete",
 			"oito", "nove" };
@@ -101,12 +101,12 @@ public class ValorCardinalPortugal {
 		return Converte(valor, vazioSeZeroParteinteira, false);
 	}
 
-	public String Converte(BigDecimal valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimail) {
+	public String Converte(BigDecimal valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimal) {
 
 		BigDecimal bigDecimal = valor.setScale(2, RoundingMode.FLOOR);
 		String temp = bigDecimal.toString();
 
-		return Converte(temp, vazioSeZeroParteinteira, vazioSeZeroParteDecimail);
+		return Converte(temp, vazioSeZeroParteinteira, vazioSeZeroParteDecimal);
 	}
 
 	public String Converte(String valor) {
@@ -119,9 +119,11 @@ public class ValorCardinalPortugal {
 		return Converte(valor, vazioSeZeroParteinteira, false);
 	}
 
-	public String Converte(String valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimail) {
+	public String Converte(String valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimal) {
 
-		String[] partes = DivideEmPartesInteiraDecimal(valor);
+		String valorForm = FormataValor(valor);
+		
+		String[] partes = DivideEmPartesInteiraDecimal(valorForm);
 
 		// separa por grupos de mil "???"
 		String[] gruposInteiros = DivideEmGruposDeMil(partes[0]);
@@ -139,7 +141,7 @@ public class ValorCardinalPortugal {
 
 		// junta todos os grupos
 		String finalInteiros = JuntaTodosGruposDeMil(gruposCardinaisInteiros, vazioSeZeroParteinteira);
-		String finalDecimais = JuntaTodosGruposDeMil(gruposCardinaisDecimais, vazioSeZeroParteDecimail);
+		String finalDecimais = JuntaTodosGruposDeMil(gruposCardinaisDecimais, vazioSeZeroParteDecimal);
 
 		// caso: se valor = 0.0 mostra sempre "zero"
 		if ((finalInteiros.length() == 0) && (finalDecimais.length() == 0))
@@ -161,7 +163,7 @@ public class ValorCardinalPortugal {
 
 		// obtem qualificadores
 		String qualificadorInteiros = ObtemQualificadorParteInteira(partes[0], vazioSeZeroParteinteira);
-		String qualificadoreDecimais = ObtemQualificadorParteBigDecimal(partes[1], vazioSeZeroParteDecimail);
+		String qualificadoreDecimais = ObtemQualificadorParteBigDecimal(partes[1], vazioSeZeroParteDecimal);
 
 		// caso: adiciona qualificador inteiros
 		if (finalInteiros.length() > 0)
@@ -170,7 +172,7 @@ public class ValorCardinalPortugal {
 		// caso: adiciona qualificador decimais
 		if ((finalDecimais.length() > 0) && (finalInteiros.length() > 0))
 			finalDecimais += " ";
-		
+
 		finalDecimais += qualificadoreDecimais;
 
 		// case: adiciona " e " entre a frase inteiros & frase decimais
@@ -179,6 +181,28 @@ public class ValorCardinalPortugal {
 			dual = FRASE_E;
 
 		return finalInteiros + dual + finalDecimais;
+	}
+
+	private String FormataValor(String valor) {
+		
+		if (valor.length() == 0)
+			return "0.00";
+
+		String resultado = valor;
+
+		int pos = valor.indexOf(".");
+		if (pos == -1)
+			resultado += ".00";
+		else if (pos == 0)
+			resultado = "0" + resultado;
+
+		int rlen = valor.length() - pos;
+		if (rlen == 1)
+			resultado += "00";
+		else if (rlen == 2)
+			resultado += "0";
+
+		return resultado;
 	}
 
 	private String[] DivideEmPartesInteiraDecimal(String valor) {
@@ -201,7 +225,7 @@ public class ValorCardinalPortugal {
 
 	private String[] DivideEmGruposDeMil(String valor) {
 
-		///String temp = valor;
+		/// String temp = valor;
 
 		// extrai
 		List<String> list = new ArrayList<String>();
@@ -212,7 +236,7 @@ public class ValorCardinalPortugal {
 			// C# temp = temp.SubString(0, temp.length() - 3);
 			valor = valor.substring(0, valor.length() - 3);
 		}
-		
+
 		list.add(String.format("%1$3s", valor).replace(' ', '0')); // garante comprimento = 3
 		// temp.PadLeft(3, '0')
 
@@ -234,7 +258,7 @@ public class ValorCardinalPortugal {
 			if (grouposEmCardinal[x].length() == 0)
 				continue;
 
-			// no ultimo elemento analisa se coloca  " e " no fim
+			// no ultimo elemento analisa se coloca " e " no fim
 			if ((x == (grouposEmCardinal.length - 1)) && (resultado.length() > 1)) {
 				int pos = grouposEmCardinal[x].indexOf(FRASE_E);
 				if (pos == -1) {
@@ -248,8 +272,8 @@ public class ValorCardinalPortugal {
 			resultado += FRASE_VIRGULA;
 		}
 
-        if ((resultado.length() == 0) && (!vazioSeZero))
-            resultado = CARDINAL_ZERO;
+		if ((resultado.length() == 0) && (!vazioSeZero))
+			resultado = CARDINAL_ZERO;
 //		if (resultado.length() == 0) {
 //			if (vazioSeZero)
 //				return "";
@@ -263,11 +287,11 @@ public class ValorCardinalPortugal {
 	}
 
 	private String RemoveUltimasVirgulasEmExcesso(String valor) {
-		
-        if (valor.length() < 2)
-            return valor;
-		
-        String resultado = valor;
+
+		if (valor.length() < 2)
+			return valor;
+
+		String resultado = valor;
 
 		// C# while (resultado.SubString(resultado.length() - 2, 2) == FRASE_VIRGULA)
 		while (resultado.substring(resultado.length() - 2, resultado.length()).equals(FRASE_VIRGULA))
@@ -372,7 +396,7 @@ public class ValorCardinalPortugal {
 	}
 
 	private String AdicionaSufixoDeGrupoMil(String valor, int nivel) {
-		
+
 		String resultado = "";
 
 		switch (nivel) {
