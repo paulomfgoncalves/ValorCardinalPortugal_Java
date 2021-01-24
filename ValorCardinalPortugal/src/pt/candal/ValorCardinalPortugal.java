@@ -145,7 +145,7 @@ public class ValorCardinalPortugal {
 		if ((finalInteiros.length() == 0) && (finalDecimais.length() == 0))
 			finalInteiros = CARDINAL_ZERO + " " + FRASE_NOME_INTEIROS_PLURAL;
 
-		// caso: analiza se coloca "de" ou "e" antes do qualificador
+		// caso: analiza se coloca "de" antes do qualificador
 		if (finalInteiros.length() > 2) {
 			// C# String temp = finalInteiros.SubString((finalInteiros.length() - 3), 3);
 			String temp = finalInteiros.substring((finalInteiros.length() - 3), finalInteiros.length());
