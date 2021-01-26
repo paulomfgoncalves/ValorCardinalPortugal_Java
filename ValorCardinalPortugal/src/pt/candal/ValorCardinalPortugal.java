@@ -38,35 +38,35 @@ public class ValorCardinalPortugal {
 	private static final String CARDINAL_MILHARES = "mil";
 
 	// xxx.000.000
-	private static final String CARDINAL_MILHOES_P = "milhões";
-	private static final String CARDINAL_MILHOES_1 = "milhão";
+//	private static final String CARDINAL_MILHOES_P = "milhões";
+//	private static final String CARDINAL_MILHOES_1 = "milhão";
 
 	// xxx.000.000.000
-	private static final String CARDINAL_MILHAR_MILHOES_P = "milhares de milhão";
-	private static final String CARDINAL_MILHAR_MILHOES_1 = "milhar de milhão";
+//	private static final String CARDINAL_MILHAR_MILHOES_P = "milhares de milhão";
+//	private static final String CARDINAL_MILHAR_MILHOES_1 = "milhar de milhão";
 
 	// xxx.000.000.000.000
-	private static final String CARDINAL_BILIOES_P = "biliões";
-	private static final String CARDINAL_BILIOES_1 = "bilião";
-	private static final String CARDINAL_DEZENAS_BILIOES_P = "dezenas de bilião";
-	private static final String CARDINAL_DEZENAS_BILIOES_1 = "dezena de bilião";
-	private static final String CARDINAL_CENTENA_BILIOES_P = "centenas de bilião";
-	private static final String CARDINAL_CENTENA_BILIOES_1 = "centena de bilião";
+//	private static final String CARDINAL_BILIOES_P = "biliões";
+//	private static final String CARDINAL_BILIOES_1 = "bilião";
+//	private static final String CARDINAL_DEZENAS_BILIOES_P = "dezenas de bilião";
+//	private static final String CARDINAL_DEZENAS_BILIOES_1 = "dezena de bilião";
+//	private static final String CARDINAL_CENTENA_BILIOES_P = "centenas de bilião";
+//	private static final String CARDINAL_CENTENA_BILIOES_1 = "centena de bilião";
 
 	// xxx.000.000.000.000.000
-	private static final String milhar_bilioes_P = "milhares de bilião";
-	private static final String milhar_bilioes_1 = "milhar de bilião";
+//	private static final String milhar_bilioes_P = "milhares de bilião";
+//	private static final String milhar_bilioes_1 = "milhar de bilião";
 
 	// confirmar
-	private static final String dezenas_milhar_bilioes_P = "dezenas de milhar de bilião";
-	private static final String dezenas_milhar_bilioes_1 = "dezena de milhar de bilião";
+//	private static final String dezenas_milhar_bilioes_P = "dezenas de milhar de bilião";
+//	private static final String dezenas_milhar_bilioes_1 = "dezena de milhar de bilião";
 	// confirmar
-	private static final String centena_milhar_bilioes_P = "centenas de milhar de bilião";
-	private static final String centena_milhar_bilioes_1 = "centena de milhar de bilião";
+//	private static final String centena_milhar_bilioes_P = "centenas de milhar de bilião";
+//	private static final String centena_milhar_bilioes_1 = "centena de milhar de bilião";
 
 	// xxx.000.000.000.000.000.000
-	private static final String CARDINAL_TRILIOES_P = "triliões";
-	private static final String CARDINAL_TRILIOES_1 = "trilião";
+//	private static final String CARDINAL_TRILIOES_P = "triliões";
+//	private static final String CARDINAL_TRILIOES_1 = "trilião";
 
 	// milhar = (1 + 3 zeros)
 	// milhões = (1 + 6 zeros)
@@ -226,7 +226,7 @@ public class ValorCardinalPortugal {
 		/// String temp = valor;
 
 		// extrai
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		while (valor.length() > 3) {
 			// C# String str3 = temp.SubString(temp.length() - 3);
 			String str3 = valor.substring(valor.length() - 3);

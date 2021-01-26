@@ -8,21 +8,29 @@ public class Program {
 
 	public static void main(String[] args) throws IOException {
 
-		System.out.println("Programa. Traduz valor para cardinal.\n\n");
+		System.out.println("");
+		System.out.println("ValorCardinalPortugal (Version: 1.0.1)");
+		System.out.println("======================================");
+		System.out.println("");
 
-		System.out.println("Introduza valor '#0.00':");
+		System.out.print("Introduza valor '#0.00':");
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String valor = reader.readLine();
 
-		System.out.println("\nProcessa :[" + valor + "]\n");
+		System.out.println("");
+		System.out.println("Processa :[" + valor + "]");
+		System.out.println("");
 
 		// executa
 		ValorCardinalPortugal objIns = new ValorCardinalPortugal();
 		String resultado = objIns.converte(valor);
 
-		System.out.println("Resultado:[" + resultado + "]\n");
+		System.out.println("Resultado:[" + resultado + "]");
+		System.out.println("");
 
-		int enter = reader.read();
+		System.out.println("enter\n");
+		int x = reader.read();
+		
 	}
 }
