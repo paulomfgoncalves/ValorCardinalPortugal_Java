@@ -90,58 +90,74 @@ public class ValorCardinalPortugal {
 	private static final String FRASE_NOME_INTEIROS_SINGULAR = "euro";
 	private static final String FRASE_NOME_DECIMAIS_PLURAL = "centimos";
 	private static final String FRASE_NOME_DECIMAIS_SINGULAR = "centimo";
+	private static final String FRASE_MENOS = "menos ";
 
-	public String Converte(BigDecimal valor) {
+	public String converte(BigDecimal valor) {
 
-		return Converte(valor, false, false);
+		return converte(valor, false, false);
 	}
 
-	public String Converte(BigDecimal valor, boolean vazioSeZeroParteinteira) {
+	public String converte(BigDecimal valor, boolean vazioSeZeroParteinteira) {
 
-		return Converte(valor, vazioSeZeroParteinteira, false);
+		return converte(valor, vazioSeZeroParteinteira, false);
 	}
 
-	public String Converte(BigDecimal valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimal) {
+	public String converte(BigDecimal valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimal) {
 
 		BigDecimal bigDecimal = valor.setScale(2, RoundingMode.FLOOR);
 		String temp = bigDecimal.toString();
 
-		return Converte(temp, vazioSeZeroParteinteira, vazioSeZeroParteDecimal);
+		return converte(temp, vazioSeZeroParteinteira, vazioSeZeroParteDecimal);
 	}
 
-	public String Converte(String valor) {
+	public String converte(String valor) {
 
-		return Converte(valor, false, false);
+		return converte(valor, false, false);
 	}
 
-	public String Converte(String valor, boolean vazioSeZeroParteinteira) {
+	public String converte(String valor, boolean vazioSeZeroParteinteira) {
 
-		return Converte(valor, vazioSeZeroParteinteira, false);
+		return converte(valor, vazioSeZeroParteinteira, false);
 	}
 
-	public String Converte(String valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimal) {
+	public String converte(String valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimal) {
 
-		String valorForm = FormataValor(valor);
-		
-		String[] partes = DivideEmPartesInteiraDecimal(valorForm);
+		if (!validaValor(valor))
+			return "ERRO: não é um valor valido: " + valor;
+
+		String valorForm = formataValor(valor);
+
+		// inicio
+		boolean negativo = valorNegativo(valorForm);
+
+		String valorInicial;
+		if (negativo)
+			valorInicial = valorForm.substring(1);
+		else
+			valorInicial = valorForm;
+
+		// processa
+
+		// separa parte inteira pare decimal
+		String[] partes = divideEmPartesInteiraDecimal(valorInicial);
 
 		// separa por grupos de mil "???"
-		String[] gruposInteiros = DivideEmGruposDeMil(partes[0]);
-		String[] gruposDecimais = DivideEmGruposDeMil(partes[1]);
+		String[] gruposInteiros = divideEmGruposDeMil(partes[0]);
+		String[] gruposDecimais = divideEmGruposDeMil(partes[1]);
 
 		// descodifica os grupos inteiros
 		String[] gruposCardinaisInteiros = new String[gruposInteiros.length];
 		for (int x = 0; x < gruposInteiros.length; x++)
-			gruposCardinaisInteiros[x] = DescodificaCardinal(gruposInteiros[x], (gruposInteiros.length - x - 1));
+			gruposCardinaisInteiros[x] = descodificaCardinal(gruposInteiros[x], (gruposInteiros.length - x - 1));
 
 		// descodifica os groupos decimais
 		String[] gruposCardinaisDecimais = new String[gruposDecimais.length];
 		for (int x = 0; x < gruposDecimais.length; x++)
-			gruposCardinaisDecimais[x] = DescodificaCardinal(gruposDecimais[x], (gruposDecimais.length - x - 1));
+			gruposCardinaisDecimais[x] = descodificaCardinal(gruposDecimais[x], (gruposDecimais.length - x - 1));
 
 		// junta todos os grupos
-		String finalInteiros = JuntaTodosGruposDeMil(gruposCardinaisInteiros, vazioSeZeroParteinteira);
-		String finalDecimais = JuntaTodosGruposDeMil(gruposCardinaisDecimais, vazioSeZeroParteDecimal);
+		String finalInteiros = juntaTodosGruposDeMil(gruposCardinaisInteiros, vazioSeZeroParteinteira);
+		String finalDecimais = juntaTodosGruposDeMil(gruposCardinaisDecimais, vazioSeZeroParteDecimal);
 
 		// caso: se valor = 0.0 mostra sempre "zero"
 		if ((finalInteiros.length() == 0) && (finalDecimais.length() == 0))
@@ -162,8 +178,8 @@ public class ValorCardinalPortugal {
 		}
 
 		// obtem qualificadores
-		String qualificadorInteiros = ObtemQualificadorParteInteira(partes[0], vazioSeZeroParteinteira);
-		String qualificadoreDecimais = ObtemQualificadorParteBigDecimal(partes[1], vazioSeZeroParteDecimal);
+		String qualificadorInteiros = obtemQualificadorParteInteira(partes[0], vazioSeZeroParteinteira);
+		String qualificadoreDecimais = obtemQualificadorParteBigDecimal(partes[1], vazioSeZeroParteDecimal);
 
 		// caso: adiciona qualificador inteiros
 		if (finalInteiros.length() > 0)
@@ -180,32 +196,14 @@ public class ValorCardinalPortugal {
 		if ((finalInteiros.length() > 0) && (finalDecimais.length() > 0))
 			dual = FRASE_E;
 
-		return finalInteiros + dual + finalDecimais;
+		String resultdofinal = finalInteiros + dual + finalDecimais;
+		if (negativo)
+			resultdofinal = FRASE_MENOS + resultdofinal;
+
+		return resultdofinal;
 	}
 
-	private String FormataValor(String valor) {
-		
-		if (valor.length() == 0)
-			return "0.00";
-
-		String resultado = valor;
-
-		int pos = valor.indexOf(".");
-		if (pos == -1)
-			resultado += ".00";
-		else if (pos == 0)
-			resultado = "0" + resultado;
-
-		int rlen = valor.length() - pos;
-		if (rlen == 1)
-			resultado += "00";
-		else if (rlen == 2)
-			resultado += "0";
-
-		return resultado;
-	}
-
-	private String[] DivideEmPartesInteiraDecimal(String valor) {
+	private String[] divideEmPartesInteiraDecimal(String valor) {
 
 		if (valor.indexOf(".") == -1)
 			valor += ".00";
@@ -223,7 +221,7 @@ public class ValorCardinalPortugal {
 		return partes;
 	}
 
-	private String[] DivideEmGruposDeMil(String valor) {
+	private String[] divideEmGruposDeMil(String valor) {
 
 		/// String temp = valor;
 
@@ -249,7 +247,7 @@ public class ValorCardinalPortugal {
 		return groupos;
 	}
 
-	private String JuntaTodosGruposDeMil(String[] grouposEmCardinal, boolean vazioSeZero) {
+	private String juntaTodosGruposDeMil(String[] grouposEmCardinal, boolean vazioSeZero) {
 
 		String resultado = "";
 
@@ -262,7 +260,7 @@ public class ValorCardinalPortugal {
 			if ((x == (grouposEmCardinal.length - 1)) && (resultado.length() > 1)) {
 				int pos = grouposEmCardinal[x].indexOf(FRASE_E);
 				if (pos == -1) {
-					resultado = RemoveUltimasVirgulasEmExcesso(resultado);
+					resultado = removeUltimasVirgulasEmExcesso(resultado);
 					// result = result.SubString(0, result.Length() - 2);
 					resultado += FRASE_E;
 				}
@@ -281,12 +279,12 @@ public class ValorCardinalPortugal {
 //				return CARDINAL_ZERO;
 //		}
 
-		resultado = RemoveUltimasVirgulasEmExcesso(resultado);
+		resultado = removeUltimasVirgulasEmExcesso(resultado);
 
 		return resultado;
 	}
 
-	private String RemoveUltimasVirgulasEmExcesso(String valor) {
+	private String removeUltimasVirgulasEmExcesso(String valor) {
 
 		if (valor.length() < 2)
 			return valor;
@@ -301,7 +299,7 @@ public class ValorCardinalPortugal {
 		return resultado;
 	}
 
-	private String DescodificaCardinal(String valor, int nivel) {
+	private String descodificaCardinal(String valor, int nivel) {
 
 		if (valor.equals("000"))
 			return "";
@@ -313,18 +311,18 @@ public class ValorCardinalPortugal {
 			// C# digitArray[x] = Byte.parseByte(valor.SubString(x, 1));
 			digitArray[x] = Byte.parseByte(valor.substring(x, (x + 1)));
 
-		cardinalArray[0] = ObtemCentenas(digitArray[0], digitArray[1], digitArray[2]);
-		cardinalArray[1] = ObtemDezenas(digitArray[1], digitArray[2]);
-		cardinalArray[2] = ObtemUnidades(digitArray[2], digitArray[1]);
+		cardinalArray[0] = obtemCentenas(digitArray[0], digitArray[1], digitArray[2]);
+		cardinalArray[1] = obtemDezenas(digitArray[1], digitArray[2]);
+		cardinalArray[2] = obtemUnidades(digitArray[2], digitArray[1]);
 
-		String resultado = JuntaCentenasDezenasUnidades(cardinalArray[0], cardinalArray[1], cardinalArray[2]);
+		String resultado = juntaCentenasDezenasUnidades(cardinalArray[0], cardinalArray[1], cardinalArray[2]);
 
-		resultado = AdicionaSufixoDeGrupoMil(resultado, nivel);
+		resultado = adicionaSufixoDeGrupoMil(resultado, nivel);
 
 		return resultado;
 	}
 
-	private String JuntaCentenasDezenasUnidades(String centena, String dezena, String unidade) {
+	private String juntaCentenasDezenasUnidades(String centena, String dezena, String unidade) {
 
 		String resultado = centena;
 		if ((centena.length() > 0) && ((dezena.length() > 0) || (unidade.length() > 0)))
@@ -339,7 +337,7 @@ public class ValorCardinalPortugal {
 		return resultado;
 	}
 
-	private String ObtemUnidades(byte digito, byte dezena) {
+	private String obtemUnidades(byte digito, byte dezena) {
 
 		if (dezena == 1)
 			return "";
@@ -347,7 +345,7 @@ public class ValorCardinalPortugal {
 		return CARDINAL_UNIDADES[digito];
 	}
 
-	private String ObtemDezenas(byte digito, byte unidade) {
+	private String obtemDezenas(byte digito, byte unidade) {
 
 		if (digito == 1)
 			return CARDINAL_DEZENAS_DEZ[unidade];
@@ -355,7 +353,7 @@ public class ValorCardinalPortugal {
 		return CARDINAL_DEZENAS[digito];
 	}
 
-	private String ObtemCentenas(byte digito, byte dezena, byte unidade) {
+	private String obtemCentenas(byte digito, byte dezena, byte unidade) {
 
 		if ((digito == 1) && (dezena == 0) && (unidade == 0))
 			return CARDINAL_CEM; // Caso : Cem
@@ -363,7 +361,7 @@ public class ValorCardinalPortugal {
 		return CARDINAL_CENTENAS[digito];
 	}
 
-	private String ObtemQualificadorParteBigDecimal(String valor, boolean vazioSeZero) {
+	private String obtemQualificadorParteBigDecimal(String valor, boolean vazioSeZero) {
 
 		byte valTemp = Byte.parseByte(valor);
 
@@ -379,7 +377,7 @@ public class ValorCardinalPortugal {
 		return "";
 	}
 
-	private String ObtemQualificadorParteInteira(String valor, boolean vazioSeZero) {
+	private String obtemQualificadorParteInteira(String valor, boolean vazioSeZero) {
 
 		double valTemp = Double.parseDouble(valor);
 
@@ -395,7 +393,7 @@ public class ValorCardinalPortugal {
 		return "";
 	}
 
-	private String AdicionaSufixoDeGrupoMil(String valor, int nivel) {
+	private String adicionaSufixoDeGrupoMil(String valor, int nivel) {
 
 		String resultado = "";
 
@@ -490,6 +488,74 @@ public class ValorCardinalPortugal {
 		}
 
 		return resultado;
+	}
+
+	/////////////////////////
+
+	private boolean validaValor(String valor) {
+
+		if (valor.length() == 0)
+			return true;
+
+		char[] array;
+
+		int pontos = 0;
+		array = valor.toCharArray();
+
+		for (int x = 0; x < array.length; x++) {
+
+			char chr = array[x];
+
+			if (chr == '-') {
+				if (x > 0)
+					return false;
+				else
+					continue;
+			}
+
+			if (chr == '.') {
+				pontos++;
+				continue;
+			}
+
+			if (chr < 48 || chr > 57)
+				return false;
+		}
+
+		if (pontos > 1)
+			return false;
+
+		return true;
+	}
+
+	private String formataValor(String valor) {
+
+		if (valor.length() == 0)
+			return "0.00";
+
+		String resultado = valor;
+
+		int pos = valor.indexOf(".");
+		if (pos == -1)
+			resultado += ".00";
+		else if (pos == 0)
+			resultado = "0" + resultado;
+
+		pos = resultado.indexOf(".");
+		int rlen = resultado.length() - pos;
+		if (rlen == 1)
+			resultado += "00";
+		else if (rlen == 2)
+			resultado += "0";
+		else
+			resultado = resultado.substring(0, pos + 3);
+
+		return resultado.trim();
+	}
+
+	private boolean valorNegativo(String valor) {
+
+		return (valor.substring(0, 1).compareTo("-") == 0);
 	}
 
 }
