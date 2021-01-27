@@ -1,1 +1,0 @@
-# ValorCardinalPortugal_Java
