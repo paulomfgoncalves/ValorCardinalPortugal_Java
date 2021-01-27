@@ -122,10 +122,13 @@ public class ValorCardinalPortugal {
 
 	public String converte(String valor, boolean vazioSeZeroParteinteira, boolean vazioSeZeroParteDecimal) {
 
-		if (!validaValor(valor))
+		String valorTrim = valor.trim();
+		
+		// validatição e formatação do impute
+		if (!validaValor(valorTrim))
 			return "ERRO: não é um valor valido: " + valor;
 
-		String valorForm = formataValor(valor);
+		String valorForm = formataValor(valorTrim);
 
 		// inicio
 		boolean negativo = valorNegativo(valorForm);
