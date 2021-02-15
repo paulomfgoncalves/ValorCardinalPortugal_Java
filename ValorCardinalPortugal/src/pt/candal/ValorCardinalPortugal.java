@@ -189,10 +189,11 @@ public class ValorCardinalPortugal {
 			finalInteiros += " " + qualificadorInteiros;
 
 		// caso: adiciona qualificador decimais
-		if ((finalDecimais.length() > 0) && (finalInteiros.length() > 0))
-			finalDecimais += " ";
-
-		finalDecimais += qualificadoreDecimais;
+		if (finalDecimais.length() > 0)
+			finalDecimais += " " + qualificadoreDecimais;
+//		if ((finalDecimais.length() > 0) && (finalInteiros.length() > 0))
+//			finalDecimais += " ";
+//		finalDecimais += qualificadoreDecimais;
 
 		// case: adiciona " e " entre a frase inteiros & frase decimais
 		String dual = "";
