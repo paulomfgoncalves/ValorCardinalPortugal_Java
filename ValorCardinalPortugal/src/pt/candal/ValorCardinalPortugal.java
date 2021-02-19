@@ -35,7 +35,7 @@ public class ValorCardinalPortugal {
 			false, false, true };
 
 	// xxx.000
-	private static final String CARDINAL_MILHARES = "mil";
+	//private static final String CARDINAL_MILHARES = "mil";
 
 	// xxx.000.000
 //	private static final String CARDINAL_MILHOES_P = "milhões";
@@ -409,9 +409,9 @@ public class ValorCardinalPortugal {
 
 		case 1: // xxx.000 - milhares
 			if (valor.equals(CARDINAL_UM))
-				resultado = CARDINAL_MILHARES; // special : remove palavra "um" (um mil)
+				resultado = CARDINAL_GRUPOS_SINGULAR[nivel]; // special : remove palavra "um" (um mil)
 			else
-				resultado += valor + " " + CARDINAL_MILHARES;
+				resultado += valor + " " + CARDINAL_GRUPOS_PLURAL[nivel];
 			break;
 
 //		case 2: // milhoes xxx.000.000
