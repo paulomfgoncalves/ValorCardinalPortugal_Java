@@ -124,7 +124,7 @@ public class ValorCardinalPortugal {
 
 		String valorTrim = valor.trim();
 		
-		// validatição e formatação do impute
+		// validação e formatação do impute
 		if (!validaValor(valorTrim))
 			return "ERRO: não é um valor valido: " + valor;
 
@@ -214,13 +214,14 @@ public class ValorCardinalPortugal {
 
 		String[] partes = valor.split("\\.");
 
-		if (partes[0].length() == 0)
-			partes[0] = "0";
-
-		if (partes[1].length() == 0)
-			partes[1] = "00";
-		else if (partes[1].length() == 1)
-			partes[1] += "0";
+		//formataValor garante 
+//		if (partes[0].length() == 0)
+//			partes[0] = "0";
+//
+//		if (partes[1].length() == 0)
+//			partes[1] = "00";
+//		else if (partes[1].length() == 1)
+//			partes[1] += "0";
 
 		return partes;
 	}
