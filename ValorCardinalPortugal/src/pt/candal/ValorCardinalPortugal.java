@@ -34,52 +34,6 @@ public class ValorCardinalPortugal {
 	private static final boolean[] CARDINAL_GRUPOS_MASCULINO = { true, true, true, true, true, false, false, true,
 			false, false, true };
 
-	// xxx.000
-	//private static final String CARDINAL_MILHARES = "mil";
-
-	// xxx.000.000
-//	private static final String CARDINAL_MILHOES_P = "milhões";
-//	private static final String CARDINAL_MILHOES_1 = "milhão";
-
-	// xxx.000.000.000
-//	private static final String CARDINAL_MILHAR_MILHOES_P = "milhares de milhão";
-//	private static final String CARDINAL_MILHAR_MILHOES_1 = "milhar de milhão";
-
-	// xxx.000.000.000.000
-//	private static final String CARDINAL_BILIOES_P = "biliões";
-//	private static final String CARDINAL_BILIOES_1 = "bilião";
-//	private static final String CARDINAL_DEZENAS_BILIOES_P = "dezenas de bilião";
-//	private static final String CARDINAL_DEZENAS_BILIOES_1 = "dezena de bilião";
-//	private static final String CARDINAL_CENTENA_BILIOES_P = "centenas de bilião";
-//	private static final String CARDINAL_CENTENA_BILIOES_1 = "centena de bilião";
-
-	// xxx.000.000.000.000.000
-//	private static final String milhar_bilioes_P = "milhares de bilião";
-//	private static final String milhar_bilioes_1 = "milhar de bilião";
-
-	// confirmar
-//	private static final String dezenas_milhar_bilioes_P = "dezenas de milhar de bilião";
-//	private static final String dezenas_milhar_bilioes_1 = "dezena de milhar de bilião";
-	// confirmar
-//	private static final String centena_milhar_bilioes_P = "centenas de milhar de bilião";
-//	private static final String centena_milhar_bilioes_1 = "centena de milhar de bilião";
-
-	// xxx.000.000.000.000.000.000
-//	private static final String CARDINAL_TRILIOES_P = "triliões";
-//	private static final String CARDINAL_TRILIOES_1 = "trilião";
-
-	// milhar = (1 + 3 zeros)
-	// milhões = (1 + 6 zeros)
-	// mil milhões= (1 + 9 zeros)
-	// bilião = um milhão de milhões (1 + 12 zeros)
-	// trilião = um milhão de biliões (1 + 18 zeros)
-	// quatrilião = um milhão de triliões (1 + 24 zeros);
-	// quintilião = um milhão de quatriliões (1 + 30 zeros);
-	// sextilião = um milhão de quintiliões (1 + 36 zeros);
-	// septilião = um milhão de sextiliões (1 + 42 zeros);
-	// octilião = um milhão de septiliões (1 + 48 zeros);
-	// nonilião = um milhão de octiliões (1 + 54 zeros).
-
 	private static final String FRASE_SUFIXO_AO = "ão";
 	private static final String FRASE_SUFIXO_OES = "ões";
 
@@ -168,12 +122,10 @@ public class ValorCardinalPortugal {
 
 		// caso: analiza se coloca "de" antes do qualificador
 		if (finalInteiros.length() > 2) {
-			// C# String temp = finalInteiros.SubString((finalInteiros.length() - 3), 3);
 			String temp = finalInteiros.substring((finalInteiros.length() - 3), finalInteiros.length());
 			if (temp.equals(FRASE_SUFIXO_OES))
 				finalInteiros += FRASE_DE;
 			else {
-				// C# temp = finalInteiros.SubString((finalInteiros.length() - 2), 2);
 				temp = finalInteiros.substring((finalInteiros.length() - 2), finalInteiros.length());
 				if (temp.equals(FRASE_SUFIXO_AO))
 					finalInteiros += FRASE_DE;
@@ -191,9 +143,6 @@ public class ValorCardinalPortugal {
 		// caso: adiciona qualificador decimais
 		if (finalDecimais.length() > 0)
 			finalDecimais += " " + qualificadoreDecimais;
-//		if ((finalDecimais.length() > 0) && (finalInteiros.length() > 0))
-//			finalDecimais += " ";
-//		finalDecimais += qualificadoreDecimais;
 
 		// case: adiciona " e " entre a frase inteiros & frase decimais
 		String dual = "";
@@ -214,15 +163,6 @@ public class ValorCardinalPortugal {
 
 		String[] partes = valor.split("\\.");
 
-		//formataValor garante 
-//		if (partes[0].length() == 0)
-//			partes[0] = "0";
-//
-//		if (partes[1].length() == 0)
-//			partes[1] = "00";
-//		else if (partes[1].length() == 1)
-//			partes[1] += "0";
-
 		return partes;
 	}
 
@@ -233,15 +173,12 @@ public class ValorCardinalPortugal {
 		// extrai
 		List<String> list = new ArrayList<>();
 		while (valor.length() > 3) {
-			// C# String str3 = temp.SubString(temp.length() - 3);
 			String str3 = valor.substring(valor.length() - 3);
 			list.add(str3);
-			// C# temp = temp.SubString(0, temp.length() - 3);
 			valor = valor.substring(0, valor.length() - 3);
 		}
 
 		list.add(String.format("%1$3s", valor).replace(' ', '0')); // garante comprimento = 3
-		// temp.PadLeft(3, '0')
 
 		// reverte array
 		int count = list.size();
@@ -266,7 +203,6 @@ public class ValorCardinalPortugal {
 				int pos = grouposEmCardinal[x].indexOf(FRASE_E);
 				if (pos == -1) {
 					resultado = removeUltimasVirgulasEmExcesso(resultado);
-					// result = result.SubString(0, result.Length() - 2);
 					resultado += FRASE_E;
 				}
 			}
@@ -277,12 +213,6 @@ public class ValorCardinalPortugal {
 
 		if ((resultado.length() == 0) && (!vazioSeZero))
 			resultado = CARDINAL_ZERO;
-//		if (resultado.length() == 0) {
-//			if (vazioSeZero)
-//				return "";
-//			else
-//				return CARDINAL_ZERO;
-//		}
 
 		resultado = removeUltimasVirgulasEmExcesso(resultado);
 
@@ -296,9 +226,7 @@ public class ValorCardinalPortugal {
 
 		String resultado = valor;
 
-		// C# while (resultado.SubString(resultado.length() - 2, 2) == FRASE_VIRGULA)
 		while (resultado.substring(resultado.length() - 2, resultado.length()).equals(FRASE_VIRGULA))
-			// C# resultado = resultado.SubString(0, resultado.length() - 2);
 			resultado = resultado.substring(0, resultado.length() - 2);
 
 		return resultado;
@@ -313,7 +241,6 @@ public class ValorCardinalPortugal {
 		byte[] digitArray = new byte[3];
 
 		for (byte x = 0; x < 3; x++)
-			// C# digitArray[x] = Byte.parseByte(valor.SubString(x, 1));
 			digitArray[x] = Byte.parseByte(valor.substring(x, (x + 1)));
 
 		cardinalArray[0] = obtemCentenas(digitArray[0], digitArray[1], digitArray[2]);
@@ -414,69 +341,6 @@ public class ValorCardinalPortugal {
 			else
 				resultado += valor + " " + CARDINAL_GRUPOS_PLURAL[nivel];
 			break;
-
-//		case 2: // milhoes xxx.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UM + " " + CARDINAL_MILHOES_1;
-//			else
-//				resultado += valor + " " + CARDINAL_MILHOES_P;
-//			break;
-//
-//		case 3: // milhar de milhoes xxx.000.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UM + " " + CARDINAL_MILHAR_MILHOES_1;
-//			else
-//				resultado += valor + " " + CARDINAL_MILHAR_MILHOES_P;
-//			break;
-//
-//		case 4: // bilioes xxx.000.000.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UM + " " + CARDINAL_BILIOES_1;
-//			else
-//				resultado += valor + " " + CARDINAL_BILIOES_P;
-//			break;
-//
-//		case 5: // dezena de bilioes xxx-000.000.000.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UMA + " " + CARDINAL_DEZENAS_BILIOES_1;
-//			else
-//				resultado += valor + " " + CARDINAL_DEZENAS_BILIOES_P;
-//			break;
-//
-//		case 6: // centena de bilioes xxx.000.000.000.000.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UMA + " " + CARDINAL_CENTENA_BILIOES_1;
-//			else
-//				resultado += valor + " " + CARDINAL_CENTENA_BILIOES_P;
-//			break;
-//
-//		case 7: // milhar de bilião xxx.000.000.000,000.000.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UM + " " + milhar_bilioes_1;
-//			else
-//				resultado += valor + " " + milhar_bilioes_P;
-//			break;
-//
-//		case 8: // dezena de milhar de bilião xxx.000.000.000,000.000.000.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UMA + " " + dezenas_milhar_bilioes_1;
-//			else
-//				resultado += valor + " " + dezenas_milhar_bilioes_P;
-//			break;
-//
-//		case 9: // centena de milhar de bilião xxx.000.000.000,000.000.000.000.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UMA + " " + centena_milhar_bilioes_1;
-//			else
-//				resultado += valor + " " + centena_milhar_bilioes_P;
-//			break;
-//
-//		case 10: // trilião xxx.000.000.000,000.000.000.000.000.000.000
-//			if (valor.equals(CARDINAL_UM))
-//				resultado = CARDINAL_UM + " " + CARDINAL_TRILIOES_1;
-//			else
-//				resultado += valor + " " + CARDINAL_TRILIOES_P;
-//			break;
 
 		default:
 

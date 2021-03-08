@@ -9,7 +9,7 @@ public class Program {
 	public static void main(String[] args) throws IOException {
 
 		System.out.println("");
-		System.out.println("ValorCardinalPortugal (Version: 1.0.1)");
+		System.out.println("ValorCardinalPortugal (Version: 1.0.3)");
 		System.out.println("======================================");
 		System.out.println("");
 
